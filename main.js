@@ -18,6 +18,7 @@ function translate(query, completion) {
   };
 
   var resultText = "";
+  var streamError = null;
 
   $http.streamRequest({
     method: "POST",
@@ -41,7 +42,9 @@ function translate(query, completion) {
 
           try {
             var data = JSON.parse(jsonStr);
-            if (data.content) {
+            if (data.error) {
+              streamError = data.error;
+            } else if (data.content) {
               resultText += data.content;
               query.onStream({
                 result: {
@@ -85,6 +88,17 @@ function translate(query, completion) {
           error: {
             type: "api",
             message: "Server returned status " + statusCode + ": " + errorBody
+          }
+        });
+        return;
+      }
+
+      // Check for streaming error
+      if (streamError) {
+        completion({
+          error: {
+            type: "api",
+            message: streamError
           }
         });
         return;
