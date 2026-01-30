@@ -1,0 +1,58 @@
+{
+  "identifier": "com.dong.bob-plugin-bedrock",
+  "version": "1.0.0",
+  "category": "translate",
+  "name": "Bedrock Translator",
+  "summary": "Translate using AWS Bedrock Claude models via local server",
+  "icon": "",
+  "author": "dong",
+  "homepage": "https://github.com/dong/bob-plugin-bedrock",
+  "appcast": "",
+  "minBobVersion": "1.8.0",
+  "options": [
+    {
+      "identifier": "serverUrl",
+      "type": "text",
+      "title": "Server URL",
+      "defaultValue": "http://localhost:18081",
+      "desc": "Local bridge server URL"
+    },
+    {
+      "identifier": "model",
+      "type": "menu",
+      "title": "Model",
+      "defaultValue": "us.anthropic.claude-3-haiku-20240307-v1:0",
+      "menuValues": [
+        {
+          "title": "Claude 3 Haiku (Fast)",
+          "value": "us.anthropic.claude-3-haiku-20240307-v1:0"
+        },
+        {
+          "title": "Claude 3 Sonnet (Balanced)",
+          "value": "us.anthropic.claude-3-sonnet-20240229-v1:0"
+        },
+        {
+          "title": "Claude 3.5 Sonnet (Best Quality)",
+          "value": "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+        },
+        {
+          "title": "Claude 3 Opus (Most Capable)",
+          "value": "us.anthropic.claude-3-opus-20240229-v1:0"
+        }
+      ],
+      "desc": "Claude model to use for translation"
+    },
+    {
+      "identifier": "prompt",
+      "type": "text",
+      "title": "Custom Prompt",
+      "defaultValue": "",
+      "textConfig": {
+        "type": "visible",
+        "height": 80,
+        "placeholderText": "Leave empty to use default prompt"
+      },
+      "desc": "Custom translation prompt. Variables: {from}(source language), {to}(target language), {text}(original text)"
+    }
+  ]
+}
