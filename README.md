@@ -20,8 +20,8 @@ Bob plugins run in a restricted JavaScriptCore environment without access to AWS
 
 ## Prerequisites
 
-- Go 1.21 or later
 - AWS credentials configured via one of:
+  - AWS SSO (`aws sso login --profile your-profile`)
   - Environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
   - AWS credentials file (`~/.aws/credentials`)
   - IAM role (when running on AWS infrastructure)
@@ -30,32 +30,49 @@ Bob plugins run in a restricted JavaScriptCore environment without access to AWS
 
 ## Setup Instructions
 
-### 1. Clone the Repository
+### Option A: Homebrew (Recommended)
 
 ```bash
-git clone https://github.com/dong/bob-plugin-bedrock.git
-cd bob-plugin-bedrock
+# Install
+brew install --HEAD wd/bob-bedrock/bob-bedrock-bridge
+
+# Configure AWS profile
+vim ~/.config/bob-bedrock-bridge/config
+# Set: AWS_PROFILE=your-profile
+
+# If using AWS SSO
+aws sso login --profile your-profile
+
+# Start as background service
+brew services start bob-bedrock-bridge
+
+# Verify
+curl http://localhost:18081/health
 ```
 
-### 2. Start the Go Server
+Service management:
+```bash
+brew services info bob-bedrock-bridge    # Check status
+brew services restart bob-bedrock-bridge # Restart after config change
+brew services stop bob-bedrock-bridge    # Stop service
+```
+
+Logs location: `/opt/homebrew/var/log/bob-bedrock-bridge/`
+
+### Option B: Manual Installation
+
+Requires Go 1.21 or later.
 
 ```bash
-cd server
-go mod tidy
-go run .
+git clone https://github.com/wd/bob-plugin-bedrock.git
+cd bob-plugin-bedrock/server
+go build -ldflags="-s -w" -o bob-bedrock-bridge .
+./bob-bedrock-bridge
 ```
 
 The server will start on `localhost:18081` by default.
 
-To run in the background:
-
-```bash
-cd server
-go build -o bedrock-server
-./bedrock-server &
-```
-
-### 3. Install the Bob Plugin
+### Install the Bob Plugin
 
 Option A: Build from source
 
@@ -70,7 +87,7 @@ Option B: Download from releases (if available)
 1. Download the `.bobplugin` file
 2. Double-click to install in Bob Translator
 
-### 4. Configure Plugin Settings in Bob
+### Configure Plugin Settings in Bob
 
 1. Open Bob Translator preferences
 2. Go to Plugins/Services
@@ -81,17 +98,38 @@ Option B: Download from releases (if available)
 
 ## Configuration
 
-### Server Environment Variables
+### Homebrew Config File
+
+Location: `~/.config/bob-bedrock-bridge/config`
+
+```bash
+# AWS Profile (matches ~/.aws/config)
+AWS_PROFILE=your-profile
+
+# AWS Region for Bedrock
+AWS_REGION=us-east-1
+
+# Server port
+SERVER_PORT=18081
+```
+
+After editing, restart the service:
+```bash
+brew services restart bob-bedrock-bridge
+```
+
+### Environment Variables (Manual Installation)
 
 | Variable      | Default     | Description                      |
 |---------------|-------------|----------------------------------|
 | `AWS_REGION`  | `us-east-1` | AWS region for Bedrock API calls |
 | `SERVER_PORT` | `18081`     | Port for the local HTTP server   |
+| `AWS_PROFILE` | (none)      | AWS profile name from ~/.aws/config |
 
 Example:
 
 ```bash
-AWS_REGION=us-west-2 SERVER_PORT=8080 go run .
+AWS_PROFILE=my-profile AWS_REGION=us-west-2 ./bob-bedrock-bridge
 ```
 
 ### Plugin Options (in Bob UI)
@@ -239,10 +277,12 @@ bob-plugin-bedrock/
 │   │   └── client.go        # Bedrock API wrapper
 │   └── config/
 │       └── config.go        # Environment configuration
+├── Formula/
+│   └── bob-bedrock-bridge.rb  # Homebrew formula
 ├── info.json                # Bob plugin metadata
 ├── main.js                  # Bob plugin logic
 ├── spec/
-│   └── 001-implementation-plan.md
+│   └── *.md                 # Design docs
 └── README.md
 ```
 
@@ -250,7 +290,7 @@ bob-plugin-bedrock/
 
 ```bash
 cd server
-go build -ldflags="-s -w" -o bedrock-server
+go build -ldflags="-s -w" -o bob-bedrock-bridge .
 ```
 
 ## License
