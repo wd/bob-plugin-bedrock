@@ -36,6 +36,10 @@ Bob plugins run in a restricted JavaScriptCore environment without access to AWS
 # Install
 brew install --HEAD wd/bob-bedrock/bob-bedrock-bridge
 
+# Upgrade
+brew upgrade --fetch-HEAD wd/bob-bedrock/bob-bedrock-bridge
+
+
 # Configure AWS profile
 vim ~/.config/bob-bedrock-bridge/config
 # Set: AWS_PROFILE=your-profile
