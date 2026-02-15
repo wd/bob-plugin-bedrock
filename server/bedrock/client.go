@@ -106,7 +106,7 @@ func languageName(code string) string {
 // getDefaultModel returns default model if none specified
 func getDefaultModel(model string) string {
 	if model == "" {
-		return "us.anthropic.claude-3-haiku-20240307-v1:0"
+		return "us.anthropic.claude-3-5-haiku-20241022-v1:0"
 	}
 	return model
 }

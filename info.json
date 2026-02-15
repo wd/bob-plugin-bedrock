@@ -21,23 +21,27 @@
       "identifier": "model",
       "type": "menu",
       "title": "Model",
-      "defaultValue": "us.anthropic.claude-3-haiku-20240307-v1:0",
+      "defaultValue": "us.anthropic.claude-3-5-haiku-20241022-v1:0",
       "menuValues": [
         {
-          "title": "Claude 3 Haiku (Fast)",
-          "value": "us.anthropic.claude-3-haiku-20240307-v1:0"
+          "title": "Claude 3.5 Haiku (Fast)",
+          "value": "us.anthropic.claude-3-5-haiku-20241022-v1:0"
         },
         {
-          "title": "Claude 3 Sonnet (Balanced)",
-          "value": "us.anthropic.claude-3-sonnet-20240229-v1:0"
+          "title": "Claude Haiku 4.5 (Fast, Newer)",
+          "value": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
         },
         {
-          "title": "Claude 3.5 Sonnet (Best Quality)",
-          "value": "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+          "title": "Claude Sonnet 4 (Balanced)",
+          "value": "us.anthropic.claude-sonnet-4-20250514-v1:0"
         },
         {
-          "title": "Claude 3 Opus (Most Capable)",
-          "value": "us.anthropic.claude-3-opus-20240229-v1:0"
+          "title": "Claude Sonnet 4.5 (High Quality)",
+          "value": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+        },
+        {
+          "title": "Claude Opus 4.6 (Most Capable)",
+          "value": "us.anthropic.claude-opus-4-6-v1"
         }
       ],
       "desc": "Claude model to use for translation"
