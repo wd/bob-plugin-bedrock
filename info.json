@@ -49,7 +49,7 @@
       "defaultValue": "",
       "textConfig": {
         "type": "visible",
-        "height": 80,
+        "height": 200,
         "placeholderText": "Leave empty to use default prompt"
       },
       "desc": "Custom translation prompt. Variables: {from}(source language), {to}(target language), {text}(original text)"
